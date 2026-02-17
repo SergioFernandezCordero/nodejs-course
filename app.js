@@ -30,7 +30,6 @@ http.createServer((req, res) => {
         res.write(main, () => {
             console.log('Serving page: ' + req.url);
         });
-        
 
     } else {
         const notFound = fs.readFileSync('files/404.html', { encoding: 'utf-8'});
