@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<title><%= title%></title>
+<body>
+    <h2><a href="/new">Post a message!</a></h2>
+    <table>
+        <caption><h2>Last messages!</h2></caption>
+        <tr>
+            <th>User</th>
+            <th>Date Added</th>
+            <th>Message</th>
+            <th>Details</th>
+        </tr>
+    <% messages.forEach((message) => { %>
+    <tr>
+        <td align="center"><b><%=message['user'];%></b></td>
+        <td align="center"><%=message['added'].toISOString().split('T')[0] %><br> <%= message['added'].toISOString().split('T')[1].split('.')[0];%></td>
+        <td align="left"><%=message['text'];%></td>
+        <td align="center">
+            <form method="POST" action="/details">
+                <input type="hidden" id="user" name="messageUser" value="<%=message['user'];%>">
+                <input type="hidden" id="text" name="messageText" value="<%=message['text'];%>">
+                <input type="hidden" id="added" name="messageAdded" value="<%=message['added'];%>">
+                <input type="submit" value="Details">
+            </form>
+        </td>
+    </tr>
+    <% }); %>
+    </table>
+</body>
+</html> 
