@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<title><%= title%></title>
+<body>
+    <table>
+        <caption><h2>Details of message</h2></caption>
+        <tr>
+            <th>User</th>
+            <th>Date Added</th>
+            <th>Message</th>
+        </tr>
+    <tr>
+        <td align="center"><b><%= user;%></b></td>
+        <td align="center"><%= new Date(added).toISOString().split('T')[0] %><br><%= new Date(added).toISOString().split('T')[1].split('.')[0];%></td>
+        <td align="left"><%= text;%></td>
+    </tr>
+    </table>
+     <button onclick="history.back()">Go Back</button>
+</body>
+</html> 

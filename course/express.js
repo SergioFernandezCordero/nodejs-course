@@ -1,11 +1,26 @@
 const express = require('express');
+const path = require("node:path");
 const app = express();
 const authorRouter = require("./routes/authorRouter.js");
 const booksRouter = require("./routes/booksRouter.js");
+const links = [
+  { href: "/", text: "Home" },
+  { href: "about", text: "About" },
+];
+const users = ["Rose", "Cake", "Biff"];
+const assetsPath = path.join(__dirname, "public");
 
-app.get('/', (req,res)=>{
-    res.send('Hello World');
-})
+app.use(express.static(assetsPath));
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "ejs");
+
+app.get("/", (req, res) => {
+    res.render("index", { links: links, users: users });
+});
+
+app.get("/about", (req, res) => {
+    res.render("about", { links: links });
+});
 
 app.get('/cocido', (req,res) => {
     res.send('Marchando un cocido!');
