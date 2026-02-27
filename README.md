@@ -1,0 +1,1 @@
+This is a dummy repo where storing my projects and practices for Node.JS learning path at The Odin Project
