@@ -1,0 +1,28 @@
+<!-- views/createUser.ejs -->
+<!DOCTYPE html>
+<html>
+    <head>
+    <title><%= title %></title>
+    </head>
+<body>
+    <table>
+        <caption><h1><%= title %></h1></caption>
+        <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Publish Date</th>
+            <th>Genre</th>
+            <th>Price</th>
+        </tr>
+        <% books.forEach(book => { %>
+        <tr>
+            <td><%= book.title %></td>
+            <td><%= book.author %></td>
+            <td><%= book.publishdate.toISOString().split('T')[0] %></td>
+            <td><%= book.genre %></td>
+            <td><%= book.price %></td>
+        </tr>
+        <% }); %>
+    </table> 
+</body>
+</html>
