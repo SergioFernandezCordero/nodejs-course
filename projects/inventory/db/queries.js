@@ -16,7 +16,7 @@ async function searchByTitle(title) {
 }
 
 async function searchByAuthor(author) {
-    const { rows } = await pool.query("SELECT * FROM books where author = ($1)", [author]);
+    const { rows } = await pool.query("SELECT * FROM books where author LIKE ($1)", [author]);
     return rows;
 }
 
@@ -26,7 +26,7 @@ async function searchByGenre(genre) {
 }
 
 async function searchByPrizeRange(min, max) {
-    const { rows } = await pool.query("SELECT * FROM books where prize >= $1 AND prize <=$2", [min, max]);
+    const { rows } = await pool.query("SELECT * FROM books where price >= $1 AND price <=$2", [min, max]);
     return rows;
 }
 

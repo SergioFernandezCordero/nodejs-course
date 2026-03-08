@@ -2,27 +2,52 @@
 <!DOCTYPE html>
 <html>
     <head>
-    <title><%= title %></title>
+    <% if ( locals.by ) {%>
+        <title>Books by <%= by %></title>
+    <% } else { %>
+        <title>Book Inventory</title>
+    <% } %>
     </head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
 <body>
-    <table>
-        <caption><h1><%= title %></h1></caption>
-        <tr>
-            <th>Title</th>
-            <th>Author</th>
-            <th>Publish Date</th>
-            <th>Genre</th>
-            <th>Price</th>
-        </tr>
-        <% books.forEach(book => { %>
-        <tr>
-            <td><%= book.title %></td>
-            <td><%= book.author %></td>
-            <td><%= book.publishdate.toISOString().split('T')[0] %></td>
-            <td><%= book.genre %></td>
-            <td><%= book.price %></td>
-        </tr>
-        <% }); %>
-    </table> 
+    <%- include('sidebar') %>
+    <div style="margin-left:15%">
+        <div class="w3-container w3-teal">
+            <% if ( locals.by ) {%>
+                <h1>Books by <%= by %></h1>
+            <% } else { %>
+                <h1>Book Inventory</h1>
+            <% } %>        
+        </div></br>
+        <div class="w3-container">
+            <table>
+                <tr>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Publish Date</th>
+                    <th>Genre</th>
+                    <th>Price per unit</th>
+                </tr>
+                <% if ( locals.books ) {%>
+                <% books.forEach(book => { %>
+                <tr>
+                    <td><%= book.title %></td>
+                    <td><%= book.author %></td>
+                    <td><%= book.publishdate.toISOString().split('T')[0] %></td>
+                    <td><%= book.genre %></td>
+                    <td><%= book.price %> €</td>
+                </tr>
+                <%}); %>
+                <%} else {%>
+                    <% if ( locals.query ) {%>
+                    <tr>
+                        <td>There are no books matching the <%= by %> "<%= query %>"</td>
+                    </tr> 
+                    <%}; %>
+                <%}; %>
+            </table>
+        </div>
+    </div>
 </body>
 </html>
