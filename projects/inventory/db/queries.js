@@ -1,17 +1,16 @@
 const pool = require("./pool");
 
 async function insertBook(title, author, publishDate, price, genre) {
-    const { newbook } = await pool.query("INSERT INTO book (title, author, publishDate, price, genre) VALUES ($1,$2,$3,$4,$5) WHERE NOT EXISTS (SELECT * FROM books WHERE title=$1 AND author=$2 AND publishDate=$3)", [title, author, publishDate, price, genre]);
-    return newbook;
+    // TODO fix this fucking query.
+    await pool.query("INSERT INTO books (title, author, publishDate, price, genre) VALUES ($1,$2,$3,$4,$5)", [title, author, publishDate, price, genre]);
 }
 
 async function insertAuthor(fullname, birthDate, country) {
-//    await pool.query("INSERT INTO authors (fullname, birthdate, country) VALUES ($1,$2,$3) ON CONFLICT DO NOTHING", [fullname, birthDate, country]);
     await pool.query("INSERT INTO authors (fullname, birthdate, country) VALUES ($1,$2,$3)", [fullname, birthDate, country]);
 }
 
 async function insertGenre(genre) {
-    await pool.query("INSERT INTO genres (genre) VALUES ($1) WHERE NOT EXISTS (SELECT * from genres WHERE genre=$1)", [genre]);
+    await pool.query("INSERT INTO genres (genre) VALUES ($1)", [genre]);
 }
 
 async function getAllBooks() {

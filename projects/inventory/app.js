@@ -48,16 +48,57 @@ app.route('/new/author')
         query.insertAuthor(req.body.fullname, req.body.birthdate, req.body.country)
         .then(() => {
             const date = new Date(req.body.birthdate);
-            res.render("authors", { by: "author", authors: [ { fullname: req.body.fullname, birthdate: date, country: req.body.country }], query: `${req.body.title}` }); 
+            res.render("authors", { by: "author", authors: [{ 
+                fullname: req.body.fullname,
+                birthdate: date,
+                country: req.body.country
+            }], query: `${req.body.title}` }); 
         })
         .catch((err) => {
             console.log(`[Router] catched ${err}`);
-            // TODO Cargar la página authors mostrando el error sin actualizar.
-            res.end()
+            res.render("authors", { by: "author", error: err, query: `${req.body.title}` }); 
         });
 
     })
 
+app.route('/new/genre')
+    .get((req, res) => {
+    res.render("creator", { by: "genre" });
+    })
+    .post((req, res) => {
+        query.insertGenre(req.body.genre)
+        .then(() => {
+            res.render("genres", { by: "genre", genres: [{ genre: req.body.genre }], query: `${req.body.title}` }); 
+        })
+        .catch((err) => {
+            console.log(`[Router] catched ${err}`);
+            res.render("genres", { by: "genre", error: err, query: `${req.body.title}` }); 
+        });
+
+    })
+
+app.route('/new/book')
+    .get((req, res) => {
+    res.render("creator", { by: "book" });
+    })
+    .post((req, res) => {
+        const date = new Date(req.body.publishDate);
+        query.insertBook(req.body.title, req.body.author, req.body.publishDate, req.body.price, req.body.genre)
+        .then(() => {
+            res.render("books", { by: "book", books: [{
+                title: req.body.title,
+                author: req.body.author,
+                publishDate: date,
+                price: req.body.price,
+                genre: req.body.genre
+            }], query: `${req.body.title}` }); 
+        })
+        .catch((err) => {
+            console.log(`[Router] catched ${err}`);
+            res.render("books", { by: "book", error: err, query: `${req.body.title}` }); 
+        });
+
+    })
 
 app.route('/search/bytitle')
     .get((req, res) => {
@@ -69,6 +110,7 @@ app.route('/search/bytitle')
             res.render("books", { by: "title", books: books, query: `${req.body.title}` }); 
         })
         .catch((err) => {
+            res.render("books", { by: "book", error: err, query: `${req.body.title}` }); 
             throw new Error(err);
         });
     })

@@ -16,22 +16,32 @@
       <form action="/new/<%= by.replace(/\s/g, "") %>" method="POST">
         <% if (locals.by == "author") { %>
         <label for="fullname">Full name: </label>
-        <input type="text" name="fullname" id="fullname" required>
+        <input type="text" name="fullname" id="fullname" required></form></br>
         <label for="birthdate">Birth date: </label>
-        <input type="date" name="birthdate" id="birthdate" required>
+        <input type="date" name="birthdate" id="birthdate" required></br>
         <label for="country">Country: </label>
-        <input type="text" name="country" id="country" required>
+        <input type="text" name="country" id="country" required></br>
         <% } else if (locals.by == "publish date") { %>
         <label for="min">From: </label>
-        <input type="date" name="min" id="min" required>
+        <input type="date" name="min" id="min" required></br>
         <label for="max">To: </label>
-        <input type="date" name="max" id="max" required>
+        <input type="date" name="max" id="max" required></br>
+        <% } else if (locals.by == "book") { %>
+        <label for="title">Title: </label>
+        <input type="text" name="title" id="title" required></br>
+        <label for="author">Author: </label>
+        <input type="text" name="author" id="author" required></br>
+        <label for="publishDate">Publish Date: </label>
+        <input type="date" name="publishDate" id="publishDate" required></br>
+        <label for="price">Price: </label>
+        <input type="number" name="price" id="price" required></br>
+        <label for="genre">Genre: </label>
+        <input type="text" name="genre" id="genre" required></br>
         <% } else { %>
         <label for="<%= by %>"><%= by.toUpperCase() %>: </label>
-        <input type="text" name="<%= by %>" id="<%= by %>" required>
+        <input type="text" name="<%= by %>" id="<%= by %>" required></br>
         <% } %>
-        <button type="submit">Create
-        </button>
+        <button type="submit">Create new <%= by %></button>
       </form>
     </div>
   </div>

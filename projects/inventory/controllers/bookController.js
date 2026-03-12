@@ -13,6 +13,32 @@ async function insertAuthor(fullname, birthDate, country) {
         });
 }
 
+async function insertGenre(genre) {
+    await db.insertGenre(genre)
+        .then(() => {
+            const log = `[Controller] SUCCESS - insertGenre inserted the registry`;
+            console.log(log);
+        })
+        .catch((err) => {
+            const log = `[Controller] ERROR - insertGenre returned ${err}`;
+            console.log(log);
+            throw new Error(err);
+        });
+}
+
+async function insertBook(title, author, publishDate, price, genre) {
+    await db.insertBook(title, author, publishDate, price, genre)
+        .then(() => {
+            const log = `[Controller] SUCCESS - insertBook inserted the registry`;
+            console.log(log);
+        })
+        .catch((err) => {
+            const log = `[Controller] ERROR - insertBook returned ${err}`;
+            console.log(log);
+            throw new Error(err);
+        });
+}
+
 async function getAllBooks() {
     const books = await db.getAllBooks();
     if (books.length <= 0 ) {
@@ -53,6 +79,7 @@ async function searchByTitle(title) {
     const books = await db.searchByTitle(title);
     if (books.length <= 0 ) {
         const log = "[Controller] searchByTitle no books with this title";
+        console.log(books);
         console.log(log);
     } else {
         console.log(`[Controller] SUCCESS - searchByTitle returned ${books.length} rows.`);
@@ -106,6 +133,8 @@ async function searchByPublishDateRange(min, max) {
 
 module.exports = {
     insertAuthor,
+    insertGenre,
+    insertBook,
     getAllBooks,
     getAllAuthors,
     getAllGenres,

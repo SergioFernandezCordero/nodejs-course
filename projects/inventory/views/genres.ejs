@@ -13,24 +13,32 @@
                 <h1>Genres</h1>     
         </div></br>
         <div class="w3-container">
+            <% if ( locals.genres ) {%>
             <table>
                 <caption><h2>Genres</h2></caption>
                 <tr>
                     <th>Genre name</th>
                 </tr>
-                <% if ( locals.genres ) {%>
                 <% genres.forEach(genre => { %>
                 <tr>
                     <td><%= genre.genre %></td>
                 </tr>
                 <%}); %>
-                <%} else {%>
-                <tr>
-                    <td>There are no genres defined.</td>
-                </tr> 
-                <%}; %>
+            </table>
+            <div>
+                <button onclick="location.href='/new/genre'" class="button-class">Create a new genre</button>
+                <button onclick="location.href='/genres'" class="button-class">List all genres</button>
+                <button onclick="location.href='/search/bygenre'" class="button-class">Search by genre</button>
+            </div>
             </table>
         </div>
+            <%} else if ( locals.error ) { %>
+            <h4>There was an error: <%= error %></h4>
+            <div><button onclick="history.back()" class="button-class">Go Back</button></div>
+            <%} else {%>
+            <h4>There are no genres defined.</h4>
+            <div><button onclick="location.href='/new/genre'" class="button-class">Create a new genre</button></div>
+            <%}; %>
     </div>
 </body>
 </html>

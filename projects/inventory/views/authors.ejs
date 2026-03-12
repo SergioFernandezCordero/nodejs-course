@@ -13,6 +13,7 @@
                 <h1>Authors</h1>     
         </div></br>
         <div class="w3-container">
+            <% if ( locals.authors ) {%>
             <table>
                 <caption><h2>Authors</h2></caption>
                 <tr>
@@ -20,7 +21,7 @@
                     <th>Birth Date</th>
                     <th>Country of birth</th>
                 </tr>
-                <% if ( locals.authors ) {%>
+                
                 <% authors.forEach(author => { %>
                 <tr>
                     <td><%= author.fullname %></td>
@@ -28,18 +29,21 @@
                     <td><%= author.country %></td>
                 </tr>
                 <%}); %>
-                <%} else if ( locals.error ) { %>
-                <tr>
-                    <td>There was an error: <%= error %></td>
-                </tr>                    
-                <%} else {%>
-                <tr>
-                    <td>There are no authors defined.</td>
-                </tr> 
-                <%}; %>
             </table>
-        </div>
-        <div><button onclick="location.href='/new/author'" class="button-class">Create a new author</button></div>
+            </br>
+            <div>
+                <button onclick="location.href='/new/author'" class="button-class">Create a new author</button>
+                <button onclick="location.href='/authors'" class="button-class">List all authors</button>
+                <button onclick="location.href='/search/byauthor'" class="button-class">Search by author</button>
+            </div>
+        </div>           
+            <%} else if ( locals.error ) { %>
+            <h4>There was an error: <%= error %></h4>
+            <div><button onclick="history.back()" class="button-class">Go Back</button></div>
+            <%} else {%>
+            <h4>There are no authors defined.</h4>
+            <div><button onclick="location.href='/new/author'" class="button-class">Create a new author</button></div>
+            <%}; %>
     </div>
 </body>
 </html>
