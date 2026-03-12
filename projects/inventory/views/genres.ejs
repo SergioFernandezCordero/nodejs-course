@@ -1,0 +1,36 @@
+<!-- views/createUser.ejs -->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Genres Inventory</title>
+    </head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
+<body>
+    <%- include('sidebar') %>
+    <div style="margin-right:15%">
+        <div class="w3-container w3-teal">
+                <h1>Genres</h1>     
+        </div></br>
+        <div class="w3-container">
+            <table>
+                <caption><h2>Genres</h2></caption>
+                <tr>
+                    <th>Genre name</th>
+                </tr>
+                <% if ( locals.genres ) {%>
+                <% genres.forEach(genre => { %>
+                <tr>
+                    <td><%= genre.genre %></td>
+                </tr>
+                <%}); %>
+                <%} else {%>
+                <tr>
+                    <td>There are no genres defined.</td>
+                </tr> 
+                <%}; %>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,8 +1,8 @@
-<!-- views/createUser.ejs -->
+<!-- views/creator.ejs -->
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Search by <%= by %></title>
+    <title>Create new <%= by %></title>
   </head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
@@ -10,15 +10,17 @@
   <%- include('sidebar') %>
   <div style="margin-right:15%">
     <div class="w3-container w3-teal">
-      <h1>Search by <%= by %></h1>
+      <h1>Create new <%= by %></h1>
     </div></br>
     <div class="w3-container">
-      <form action="/search/by<%= by.replace(/\s/g, "") %>" method="POST">
-        <% if (locals.by == "price") { %>
-        <label for="min">Minimum: </label>
-        <input type="text" name="min" id="min" required>
-        <label for="max">Maximum: </label>
-        <input type="text" name="max" id="max" required>
+      <form action="/new/<%= by.replace(/\s/g, "") %>" method="POST">
+        <% if (locals.by == "author") { %>
+        <label for="fullname">Full name: </label>
+        <input type="text" name="fullname" id="fullname" required>
+        <label for="birthdate">Birth date: </label>
+        <input type="date" name="birthdate" id="birthdate" required>
+        <label for="country">Country: </label>
+        <input type="text" name="country" id="country" required>
         <% } else if (locals.by == "publish date") { %>
         <label for="min">From: </label>
         <input type="date" name="min" id="min" required>
@@ -28,7 +30,8 @@
         <label for="<%= by %>"><%= by.toUpperCase() %>: </label>
         <input type="text" name="<%= by %>" id="<%= by %>" required>
         <% } %>
-        <button type="submit">Search</button>
+        <button type="submit">Create
+        </button>
       </form>
     </div>
   </div>

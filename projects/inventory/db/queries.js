@@ -1,12 +1,29 @@
 const pool = require("./pool");
 
-
 async function insertBook(title, author, publishDate, price, genre) {
-    await pool.query("INSERT INTO book (title, author, publishDate, price, genre) VALUES ($1,$2,$3,$4,$5)", [title, author, publishDate, price, genre]);
+    const { newbook } = await pool.query("INSERT INTO book (title, author, publishDate, price, genre) VALUES ($1,$2,$3,$4,$5) WHERE NOT EXISTS (SELECT * FROM books WHERE title=$1 AND author=$2 AND publishDate=$3)", [title, author, publishDate, price, genre]);
+    return newbook;
+}
+
+async function insertAuthor(fullname, birthDate, country) {
+//    await pool.query("INSERT INTO authors (fullname, birthdate, country) VALUES ($1,$2,$3) ON CONFLICT DO NOTHING", [fullname, birthDate, country]);
+    await pool.query("INSERT INTO authors (fullname, birthdate, country) VALUES ($1,$2,$3)", [fullname, birthDate, country]);
+}
+
+async function insertGenre(genre) {
+    await pool.query("INSERT INTO genres (genre) VALUES ($1) WHERE NOT EXISTS (SELECT * from genres WHERE genre=$1)", [genre]);
 }
 
 async function getAllBooks() {
     const { rows } = await pool.query("SELECT * FROM books");
+    return rows;
+}
+async function getAllAuthors() {
+    const { rows } = await pool.query("SELECT * FROM authors");
+    return rows;
+}
+async function getAllGenres() {
+    const { rows } = await pool.query("SELECT * FROM genres");
     return rows;
 }
 
@@ -65,7 +82,11 @@ async function deleteBookByAuthor(author) {
 
 module.exports = {
     insertBook,
+    insertAuthor,
+    insertGenre,
     getAllBooks,
+    getAllAuthors,
+    getAllGenres,
     searchByTitle,
     searchByAuthor,
     searchByGenre,

@@ -20,7 +20,46 @@ app.get("/", (req, res) => {
         });
 });
 
-app.route('/search/title')
+app.get("/authors", (req, res) => {
+    query.getAllAuthors()
+        .then((authors) => {
+            res.render("authors", { authors: authors });
+        })
+        .catch((err) => {
+            throw new Error(err);
+        });
+});
+
+app.get("/genres", (req, res) => {
+    query.getAllGenres()
+        .then((genres) => {
+            res.render("genres", { genres: genres });
+        })
+        .catch((err) => {
+            throw new Error(err);
+        });
+});
+
+app.route('/new/author')
+    .get((req, res) => {
+    res.render("creator", { by: "author" });
+    })
+    .post((req, res) => {
+        query.insertAuthor(req.body.fullname, req.body.birthdate, req.body.country)
+        .then(() => {
+            const date = new Date(req.body.birthdate);
+            res.render("authors", { by: "author", authors: [ { fullname: req.body.fullname, birthdate: date, country: req.body.country }], query: `${req.body.title}` }); 
+        })
+        .catch((err) => {
+            console.log(`[Router] catched ${err}`);
+            // TODO Cargar la página authors mostrando el error sin actualizar.
+            res.end()
+        });
+
+    })
+
+
+app.route('/search/bytitle')
     .get((req, res) => {
     res.render("searcher", { by: "title" });
     })
@@ -34,7 +73,7 @@ app.route('/search/title')
         });
     })
 
-app.route('/search/author')
+app.route('/search/byauthor')
     .get((req, res) => {
     res.render("searcher", { by: "author" });
     })
@@ -48,7 +87,7 @@ app.route('/search/author')
         });
     })
 
-app.route('/search/genre')
+app.route('/search/bygenre')
     .get((req, res) => {
     res.render("searcher", { by: "genre" });
     })
@@ -62,7 +101,7 @@ app.route('/search/genre')
         });
     })
 
-app.route('/search/price')
+app.route('/search/byprice')
     .get((req, res) => {
     res.render("searcher", { by: "price" });
     })
@@ -76,7 +115,7 @@ app.route('/search/price')
         });
     })
 
-app.route('/search/publishdate')
+app.route('/search/bypublishdate')
     .get((req, res) => {
     res.render("searcher", { by: "publish date" });
     })
