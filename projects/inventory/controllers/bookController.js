@@ -1,16 +1,16 @@
 const db = require("../db/queries");
 
+// TODO: Change all to try/catch convention
 async function insertAuthor(fullname, birthDate, country) {
-    await db.insertAuthor(fullname, birthDate, country)
-        .then(() => {
-            const log = `[Controller] SUCCESS - insertAuthor inserted the registry`;
-            console.log(log);
-        })
-        .catch((err) => {
-            const log = `[Controller] ERROR - insertAuthor returned ${err}`;
-            console.log(log);
-            throw new Error(err);
-        });
+    try {
+        const insert = await db.insertAuthor(fullname, birthDate, country);
+        const log = `[Controller] SUCCESS - insertAuthor inserted the registry`;
+        console.log(log);
+    } catch (err) {
+        const log = `[Controller] ERROR - insertAuthor returned ${err}`;
+        console.log(log);
+        throw new Error(err);
+    }
 }
 
 async function insertGenre(genre) {
@@ -22,7 +22,6 @@ async function insertGenre(genre) {
         .catch((err) => {
             const log = `[Controller] ERROR - insertGenre returned ${err}`;
             console.log(log);
-            throw new Error(err);
         });
 }
 
@@ -35,7 +34,6 @@ async function insertBook(title, author, publishDate, price, genre) {
         .catch((err) => {
             const log = `[Controller] ERROR - insertBook returned ${err}`;
             console.log(log);
-            throw new Error(err);
         });
 }
 
@@ -76,58 +74,84 @@ async function getAllGenres() {
 }
 
 async function searchByTitle(title) {
-    const books = await db.searchByTitle(title);
-    if (books.length <= 0 ) {
-        const log = "[Controller] searchByTitle no books with this title";
-        console.log(books);
+    try {
+        const books = await db.searchByTitle(title)
+        if (typeof books == 'undefined' || books.length <= 0 ) {
+            const log = "[Controller] searchByTitle no books with this title";
+            console.log(log);
+            return books;
+        } else {
+            console.log(`[Controller] SUCCESS - searchByTitle returned ${books.length} rows.`);
+            return books;
+        }
+    } catch (err) {
+        const log = `[Controller] ERROR - searchByTitle returned ${err}`;
         console.log(log);
-    } else {
-        console.log(`[Controller] SUCCESS - searchByTitle returned ${books.length} rows.`);
-        return books;
+        throw new Error(err);
     }
 }
 
 async function searchByAuthor(author) {
-    const books = await db.searchByAuthor(author);
-    if (books.length <= 0 ) {
-        const log = "[Controller] searchByAuthor no books with this title";
-        console.log(log);
-    } else {
-        console.log(`[Controller] SUCCESS - searchByAuthor returned ${books.length} rows.`);
-        return books;
+    try {
+        const books = await db.searchByAuthor(author)
+        if (typeof books == 'undefined' || books.length <= 0 ) {
+            const log = "[Controller] searchByAuthor no books with this title";
+            return books;
+        } else {
+            console.log(`[Controller] SUCCESS - searchByAuthor returned ${books.length} rows.`);
+            return books;
+        }
+    } catch (err) {
+        const log = `[Controller] ERROR - searchByAuthor returned ${err}`;
+        throw new Error(err);
     }
 }
 
 async function searchByGenre(genre) {
-    const books = await db.searchByGenre(genre);
-    if (books.length <= 0 ) {
-        const log = "[Controller] searchByGenre no books in this genre";
-        console.log(log);
-    } else {
-        console.log(`[Controller] SUCCESS - searchByGenre returned ${books.length} rows.`);
-        return books;
+    try {
+        const books = await db.searchByGenre(genre)
+        if (typeof books == 'undefined' || books.length <= 0 ) {
+            const log = "[Controller] searchByGenre no books with this title";
+            return books;
+        } else {
+            console.log(`[Controller] SUCCESS - searchByGenre returned ${books.length} rows.`);
+            return books;
+        }
+    } catch (err) {
+        const log = `[Controller] ERROR - searchByGenre returned ${err}`;
+        throw new Error(err);
     }
 }
 
 async function searchByPrizeRange(min, max) {
-    const books = await db.searchByPrizeRange(min, max);
-    if (books.length <= 0 ) {
-        const log = "[Controller] searchByPrizeRange no books in this range";
-        console.log(log);
-    } else {
-        console.log(`[Controller] SUCCESS - searchByPrizeRange returned ${books.length} rows.`);
-        return books;
+    try {
+        const books = await db.searchByPrizeRange(min, max);
+        if (books.length <= 0 ) {
+            const log = "[Controller] searchByPrizeRange no books in this range";
+            console.log(log);
+        } else {
+            console.log(`[Controller] SUCCESS - searchByPrizeRange returned ${books.length} rows.`);
+            return books;
+        }
+    } catch (err) {
+        const log = `[Controller] ERROR - searchByPrizeRange returned ${err}`;
+        throw new Error(err);
     }
 }
 
 async function searchByPublishDateRange(min, max) {
-    const books = await db.searchByPublishDateRange(min, max);
-    if (books.length <= 0 ) {
-        const log = `[Controller] searchByPublishDateRange no books in this time range`;
-        console.log(log);
-    } else {
-        console.log(`[Controller] SUCCESS - searchByPublishDateRange returned ${books.length} rows.`);
-        return books;
+    try {
+        const books = await db.searchByPublishDateRange(min, max);
+        if (books.length <= 0 ) {
+            const log = `[Controller] searchByPublishDateRange no books in this time range`;
+            console.log(log);
+        } else {
+            console.log(`[Controller] SUCCESS - searchByPublishDateRange returned ${books.length} rows.`);
+            return books;
+        }
+    } catch (err) {
+        const log = `[Controller] ERROR - searchByPublishDateRange returned ${err}`;
+        throw new Error(err);
     }
 }
 

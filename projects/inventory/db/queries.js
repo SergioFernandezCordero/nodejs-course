@@ -1,7 +1,6 @@
 const pool = require("./pool");
 
 async function insertBook(title, author, publishDate, price, genre) {
-    // TODO fix this fucking query.
     await pool.query("INSERT INTO books (title, author, publishDate, price, genre) VALUES ($1,$2,$3,$4,$5)", [title, author, publishDate, price, genre]);
 }
 

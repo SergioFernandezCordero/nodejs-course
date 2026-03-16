@@ -21,7 +21,7 @@
             <% } %>        
         </div></br>
         <div class="w3-container">
-            <% if ( locals.books ) {%>
+            <% if ( locals.books && locals.books.length > 0 ) {%>
             <table>
                 <caption><h2>Books</h2></caption>
                 <tr>
@@ -48,13 +48,16 @@
                 <button onclick="location.href='/search/bytitle'" class="button-class">Search by title</button>
                 <button onclick="location.href='/search/byauthor'" class="button-class">Search by author</button>
                 <button onclick="location.href='/search/bygenre'" class="button-class">Search by genre</button>
+                <button onclick="location.href='/search/bypublishdate'" class="button-class">Search by publish date</button>
+                <button onclick="location.href='/search/byprice'" class="button-class">Search by price</button>
             </div>
                 <%} else if ( locals.error ) { %>
                 <h4>There was an error: <%= error %></h4>
                 <div><button onclick="history.back()" class="button-class">Go Back</button></div>
                 <%} else {%>
-                <h4>There are no books defined.</h4>
+                <h4>There are no books defined matching critetia.</h4>
                 <div><button onclick="location.href='/new/book'" class="button-class">Create a new book</button></div>
+                <div><button onclick="history.back()" class="button-class">Go Back</button></div>
                 <%}; %>
         </div>
     </div>
