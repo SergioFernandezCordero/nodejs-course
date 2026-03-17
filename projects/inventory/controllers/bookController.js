@@ -14,62 +14,81 @@ async function insertAuthor(fullname, birthDate, country) {
 }
 
 async function insertGenre(genre) {
-    await db.insertGenre(genre)
-        .then(() => {
-            const log = `[Controller] SUCCESS - insertGenre inserted the registry`;
-            console.log(log);
-        })
-        .catch((err) => {
-            const log = `[Controller] ERROR - insertGenre returned ${err}`;
-            console.log(log);
-        });
-}
-
-async function insertBook(title, author, publishDate, price, genre) {
-    await db.insertBook(title, author, publishDate, price, genre)
-        .then(() => {
-            const log = `[Controller] SUCCESS - insertBook inserted the registry`;
-            console.log(log);
-        })
-        .catch((err) => {
-            const log = `[Controller] ERROR - insertBook returned ${err}`;
-            console.log(log);
-        });
-}
-
-async function getAllBooks() {
-    const books = await db.getAllBooks();
-    if (books.length <= 0 ) {
-        const log = "[Controller] getAllBooks books inventory is empty";
+    try {
+        await db.insertGenre(genre)
+        const log = `[Controller] SUCCESS - insertGenre inserted the registry`;
         console.log(log);
-        return log;
-    } else {
-        console.log(`[Controller] SUCCESS - getAllBooks returned ${books.length} rows.`);
-        return books;
+    } catch (err) {
+        const log = `[Controller] ERROR - insertGenre returned ${err}`;
+        console.log(log);
+        throw new Error(err);
     }
 }
 
-async function getAllAuthors() {
-    const authors = await db.getAllAuthors();
-    if (authors.length <= 0 ) {
-        const log = "[Controller] getAllAuthors authors inventory is empty";
+async function insertBook(title, author, publishDate, price, genre) {
+    try {
+        await db.insertBook(title, author, publishDate, price, genre);
+        const log = `[Controller] SUCCESS - insertBook inserted the registry`;
         console.log(log);
-        return log;
-    } else {
-        console.log(`[Controller] SUCCESS - getAllAuthors returned ${authors.length} rows.`);
-        return authors;
+    } catch (err) {
+        const log = `[Controller] ERROR - insertBook returned ${err}`;
+        console.log(log);
+        throw new Error(err);
+    }
+}
+
+async function getAllBooks() {
+    try {
+        const books = await db.getAllBooks();
+        if (books.length <= 0 ) {
+            const log = "[Controller] getAllBooks books inventory is empty";
+            console.log(log);
+            return log;
+        } else {
+            console.log(`[Controller] SUCCESS - getAllBooks returned ${books.length} rows.`);
+            return books;
+        }
+    } catch (err) {
+        const log = `[Controller] ERROR - getAllBooks returned ${err}`;
+        console.log(log);
+        throw new Error(err);
+    }
+
+}
+
+async function getAllAuthors() {
+    try {
+        const authors = await db.getAllAuthors();
+        if (authors.length <= 0 ) {
+            const log = "[Controller] getAllAuthors authors inventory is empty";
+            console.log(log);
+            return log;
+        } else {
+            console.log(`[Controller] SUCCESS - getAllAuthors returned ${authors.length} rows.`);
+            return authors;
+        }
+    } catch (err) {
+        const log = `[Controller] ERROR - getAllAuthors returned ${err}`;
+        console.log(log);
+        throw new Error(err);
     }
 }
 
 async function getAllGenres() {
-    const genres = await db.getAllGenres();
-    if (genres.length <= 0 ) {
-        const log = "[Controller] getAllGenres genres inventory is empty";
+    try {
+        const genres = await db.getAllGenres();
+        if (genres.length <= 0 ) {
+            const log = "[Controller] getAllGenres genres inventory is empty";
+            console.log(log);
+            return log;
+        } else {
+            console.log(`[Controller] SUCCESS - getAllGenres returned ${genres.length} rows.`);
+            return genres;
+        }
+    } catch (err) {
+        const log = `[Controller] ERROR - getAllGenres returned ${err}`;
         console.log(log);
-        return log;
-    } else {
-        console.log(`[Controller] SUCCESS - getAllGenres returned ${genres.length} rows.`);
-        return genres;
+        throw new Error(err);
     }
 }
 
