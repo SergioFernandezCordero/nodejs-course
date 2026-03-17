@@ -53,7 +53,7 @@ app.route('/new/author')
                 fullname: req.body.fullname,
                 birthdate: date,
                 country: req.body.country
-            }], query: `${req.body.title}` }); 
+            }] }); 
         } catch(err) {
             console.log(`[Router] catched ${err}`);
             res.render("authors", { by: "author", error: err, query: `${req.body.title}` }); 
@@ -87,7 +87,7 @@ app.route('/new/book')
             res.render("books", { by: "book", books: [{
                 title: req.body.title,
                 author: req.body.author,
-                publishDate: date,
+                publishdate: date,
                 price: req.body.price,
                 genre: req.body.genre
             }] }); 
