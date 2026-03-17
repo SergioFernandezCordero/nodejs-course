@@ -7,25 +7,24 @@
     <% } else { %>
         <title>Book Inventory</title>
     <% } %>
+    <%- include('styles') %>
     </head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
 <body>
     <%- include('sidebar') %>
     <div style="margin-right:15%">
         <div class="w3-container w3-teal">
             <% if ( locals.by ) {%>
-                <h1>Books by <%= by %></h1>
+                <p><a href="/"><img src="/images/icon.png" style="float:left" alt="Book Inventory App" height="42" width="42"></a></p><h1>Books by <%= by %></h1></img>
             <% } else { %>
-                <h1>Books Inventory</h1>
+                <p><a href="/"><img src="/images/icon.png" style="float:left" alt="Book Inventory App" height="42" width="42"></a></p><h1>Books Inventory</h1></img>
             <% } %>        
         </div></br>
         <div class="w3-container">
             <% if ( locals.books && locals.books.length > 0 ) {%>
-            <table>
+            <table align="center">
                 <caption><h2>Books</h2></caption>
                 <tr>
-                    <th>Title</th>
+                    <th width="400">Title</th>
                     <th>Author</th>
                     <th>Publish Date</th>
                     <th>Genre</th>
@@ -33,7 +32,7 @@
                 </tr>
                 <% books.forEach(book => { %>
                 <tr>
-                    <td><%= book.title %></td>
+                    <td width="400" align="left"><%= book.title %></td>
                     <td><%= book.author %></td>
                     <td><%= book.publishdate.toISOString().split('T')[0] %></td>
                     <td><%= book.genre %></td>
@@ -42,7 +41,7 @@
                 <%}); %>
             </table>
             </br>
-            <div>
+            <div align="center">
                 <button onclick="location.href='/new/book'" class="button-class">Create a new book</button>
                 <button onclick="location.href='/'" class="button-class">List all book</button>
                 <button onclick="location.href='/search/bytitle'" class="button-class">Search by title</button>
@@ -52,12 +51,14 @@
                 <button onclick="location.href='/search/byprice'" class="button-class">Search by price</button>
             </div>
                 <%} else if ( locals.error ) { %>
+            <div align="center">
                 <h4>There was an error: <%= error %></h4>
-                <div><button onclick="history.back()" class="button-class">Go Back</button></div>
+                <button onclick="history.back()" class="button-class">Go Back</button>
                 <%} else {%>
-                <h4>There are no books defined matching critetia.</h4>
-                <div><button onclick="location.href='/new/book'" class="button-class">Create a new book</button></div>
-                <div><button onclick="history.back()" class="button-class">Go Back</button></div>
+                <h4>There are no books defined matching criteria.</h4>
+                <button onclick="location.href='/new/book'" class="button-class">Create a new book</button>
+                <button onclick="history.back()" class="button-class">Go Back</button>
+            </div>
                 <%}; %>
         </div>
     </div>

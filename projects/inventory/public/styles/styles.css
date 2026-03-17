@@ -1,0 +1,34 @@
+td 
+{
+    height: 20px; 
+    width: 200px;
+    text-align: center; 
+    vertical-align: middle;
+}
+
+#cssTable td 
+{
+    text-align: center; 
+    vertical-align: middle;
+}
+
+tr:nth-child(even) {
+  background-color: rgba(150, 212, 212, 0.4);
+}
+
+th:nth-child(even),td:nth-child(even) {
+  background-color: rgba(150, 212, 212, 0.4);
+}
+
+.text {
+  align-self: flex-end;
+}
+
+.image {
+  width: 42px;
+  height: 42px;
+}
+
+.paragraph {
+  display: flex;
+}

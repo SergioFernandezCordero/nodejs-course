@@ -50,19 +50,18 @@ async function searchByPublishDateRange(min, max) {
     return rows;
 }
 
-async function updateBookAuthor(author) {
+// TODO: Update functions as defined below
+async function updateAuthor(author) {
+    // query and return current information
+    // query update and return result
     console.log("WIP");
 }
 
-async function updateBookTitle(title) {
+async function updateBook(title) {
     console.log("WIP");
 }
 
-async function updateBookPrize(prize) {
-    console.log("WIP");
-}
-
-async function updateBookGenre(genre) {
+async function updateGenre(genre) {
     console.log("WIP");
 }
 
@@ -90,10 +89,9 @@ module.exports = {
     searchByGenre,
     searchByPrizeRange,
     searchByPublishDateRange,
-    updateBookAuthor,
-    updateBookTitle,
-    updateBookPrize,
-    updateBookGenre,
+    updateAuthor,
+    updateBook,
+    updateGenre,
     updateBookPublishDate,
     deleteBookByTitle,
     deleteBookByAuthor

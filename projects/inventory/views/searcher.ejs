@@ -3,16 +3,15 @@
 <html>
   <head>
     <title>Search by <%= by %></title>
+  <%- include('styles') %>
   </head>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
 <body>
   <%- include('sidebar') %>
   <div style="margin-right:15%">
     <div class="w3-container w3-teal">
-      <h1>Search by <%= by %></h1>
+      <p><a href="/"><img src="/images/icon.png" style="float:left" alt="Book Inventory App" height="42" width="42"></a></p><h1>Search by <%= by %></h1>
     </div></br>
-    <div class="w3-container">
+    <div class="w3-container" align="center">
       <form action="/search/by<%= by.replace(/\s/g, "") %>" method="POST">
         <% if (locals.by == "price") { %>
         <label for="min">Minimum: </label>
@@ -25,7 +24,7 @@
         <label for="max">To: </label>
         <input type="date" name="max" id="max" required>
         <% } else { %>
-        <label for="<%= by %>"><%= by.toUpperCase() %>: </label>
+        <label for="<%= by %>"><%= by.toUpperCase() %> </label>
         <input type="text" name="<%= by %>" id="<%= by %>" required>
         <% } %>
         <button type="submit">Search</button>
