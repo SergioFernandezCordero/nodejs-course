@@ -13,7 +13,7 @@ CREATE table IF NOT EXISTS authors (
 );
 CREATE table IF NOT EXISTS books (
     title VARCHAR (150) PRIMARY KEY,
-    author VARCHAR (50) REFERENCES authors(fullname) ON DELETE RESTRICT,
+    author VARCHAR (50) REFERENCES authors(fullname) ON DELETE CASCADE,
     publishDate DATE NOT NULL,
     price INT,
     genre VARCHAR REFERENCES genres(genre) ON DELETE CASCADE
