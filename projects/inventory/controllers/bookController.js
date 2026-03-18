@@ -1,6 +1,5 @@
 const db = require("../db/queries");
 
-// TODO: Change all to try/catch convention
 async function insertAuthor(fullname, birthDate, country) {
     try {
         const insert = await db.insertAuthor(fullname, birthDate, country);
@@ -174,6 +173,44 @@ async function searchByPublishDateRange(min, max) {
     }
 }
 
+async function updateBook(title, author, publishDate, price, genre) {
+    try {
+        await db.updateBook(title, author, publishDate, price, genre);
+        const books = await searchByTitle(title);
+        const log = `[Controller] SUCCESS - updateBook inserted the registry`;
+        console.log(log);
+        return books;
+    } catch (err) {
+        const log = `[Controller] ERROR - updateBook returned ${err}`;
+        console.log(log);
+        throw new Error(err);
+    }
+}
+
+async function updateAuthor(fullname, birthDate, country) {
+    try {
+        const insert = await db.updateAuthor(fullname, birthDate, country);
+        const log = `[Controller] SUCCESS - updateAuthor inserted the registry`;
+        console.log(log);
+    } catch (err) {
+        const log = `[Controller] ERROR - updateAuthor returned ${err}`;
+        console.log(log);
+        throw new Error(err);
+    }
+}
+
+async function updateGenre(genre) {
+    try {
+        await db.updateGenre(genre)
+        const log = `[Controller] SUCCESS - updateGenre inserted the registry`;
+        console.log(log);
+    } catch (err) {
+        const log = `[Controller] ERROR - updateGenre returned ${err}`;
+        console.log(log);
+        throw new Error(err);
+    }
+}
+
 module.exports = {
     insertAuthor,
     insertGenre,
@@ -185,5 +222,8 @@ module.exports = {
     searchByAuthor,
     searchByGenre,
     searchByPrizeRange,
-    searchByPublishDateRange
+    searchByPublishDateRange,
+    updateBook,
+    updateAuthor,
+    updateGenre
 };

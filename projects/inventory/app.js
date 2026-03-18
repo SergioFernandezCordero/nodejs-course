@@ -168,6 +168,64 @@ app.route('/search/bypublishdate')
         }
     })
 
+app.route('/update/book')
+    .get((req, res) => {
+        res.render("updater", { by: "book", books: [{
+            title: req.query.title,
+            author: req.query.author,
+            publishdate: new Date(req.query.publishDate),
+            price: req.query.price,
+            genre: req.query.genre
+        }] });
+    })
+    .post(async (req, res) => {
+        try {
+            const updateBook = await query.updateBook(req.body.title, req.body.author, req.body.publishDate, req.body.price, req.body.genre)
+            res.render("books", { by: "title", books: updateBook }); 
+        } catch (err) {
+            console.log(`[Router] catched ${err}`);
+            res.render("books", { by: "book", error: err }); 
+        }
+
+    })
+
+app.route('/update/author')
+    .get((req, res) => {
+        res.render("updater", { by: "author", authors: [{
+            fullname: req.query.fullname,
+            birthdate: new Date(req.query.birthDate),
+            country: req.query.country
+        }] });
+    })
+    .post(async (req, res) => {
+        try {
+            const updateAuthor = await query.updateAuthor(fullname, birthDate, country)
+            res.render("authors", { by: "author", author: updateAuthor }); 
+        } catch (err) {
+            console.log(`[Router] catched ${err}`);
+            res.render("authors", { by: "author", error: err }); 
+        }
+
+    })
+
+
+app.route('/update/genre')
+    .get((req, res) => {
+        res.render("updater", { by: "genre", genres: [{
+            genre: req.query.genre
+        }] });
+    })
+    .post(async (req, res) => {
+        try {
+            const updateAuthor = await query.updateAuthor(fullname, birthDate, country)
+            res.render("authors", { by: "author", author: updateAuthor }); 
+        } catch (err) {
+            console.log(`[Router] catched ${err}`);
+            res.render("authors", { by: "author", error: err }); 
+        }
+
+    })
+
 app.listen(PORT, (error)=>{
     if (error) {
         throw error;

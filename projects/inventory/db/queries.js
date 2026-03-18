@@ -50,23 +50,12 @@ async function searchByPublishDateRange(min, max) {
     return rows;
 }
 
-// TODO: Update functions as defined below
-async function updateAuthor(author) {
-    // query and return current information
-    // query update and return result
-    console.log("WIP");
+async function updateAuthor(fullname, birthDate, country) {
+    await pool.query("UPDATE authors SET birthdate = $2, country = $3 WHERE fullname = $1", [fullname, birthDate, country]);
 }
 
-async function updateBook(title) {
-    console.log("WIP");
-}
-
-async function updateGenre(genre) {
-    console.log("WIP");
-}
-
-async function updateBookPublishDate(publishDate) {
-    console.log("WIP");
+async function updateBook(title, author, publishDate, price, genre) {
+    await pool.query("UPDATE books SET author = $2, publishDate = $3, price = $4, genre = $5 WHERE title = $1", [title, author, publishDate, price, genre]);
 }
 
 async function deleteBookByTitle(title) {
@@ -91,8 +80,6 @@ module.exports = {
     searchByPublishDateRange,
     updateAuthor,
     updateBook,
-    updateGenre,
-    updateBookPublishDate,
     deleteBookByTitle,
     deleteBookByAuthor
 };

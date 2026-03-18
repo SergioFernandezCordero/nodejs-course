@@ -19,8 +19,8 @@
                 <p><a href="/"><img src="/images/icon.png" style="float:left" alt="Book Inventory App" height="42" width="42"></a></p><h1>Books Inventory</h1></img>
             <% } %>        
         </div></br>
-        <div class="w3-container">
             <% if ( locals.books && locals.books.length > 0 ) {%>
+        <div class="w3-container">
             <table align="center">
                 <caption><h2>Books</h2></caption>
                 <tr>
@@ -29,6 +29,7 @@
                     <th>Publish Date</th>
                     <th>Genre</th>
                     <th>Price per unit</th>
+                    <th>Available actions</th>
                 </tr>
                 <% books.forEach(book => { %>
                 <tr>
@@ -37,6 +38,10 @@
                     <td><%= book.publishdate.toISOString().split('T')[0] %></td>
                     <td><%= book.genre %></td>
                     <td><%= book.price %> €</td>
+                    <td>
+                        <button onclick="location.href='/update/book/?title=<%= encodeURIComponent(book.title) %>&author=<%= encodeURIComponent(book.author) %>&publishDate=<%= book.publishdate.toISOString().split('T')[0] %>&genre=<%= encodeURIComponent(book.genre) %>&price=<%= book.price %>'" class="button-class">Update</button>
+                        <button onclick="location.href='/delete/book/?title=<%= encodeURIComponent(book.title) %>'" class="button-class">Delete</button>
+                    </td>
                 </tr>
                 <%}); %>
             </table>
@@ -59,8 +64,8 @@
                 <button onclick="location.href='/new/book'" class="button-class">Create a new book</button>
                 <button onclick="history.back()" class="button-class">Go Back</button>
             </div>
-                <%}; %>
         </div>
+                <%}; %>
     </div>
 </body>
 </html>

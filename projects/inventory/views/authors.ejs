@@ -19,6 +19,7 @@
                     <th>Full name</th>
                     <th>Birth Date</th>
                     <th>Country of birth</th>
+                    <th>Available actions</th>
                 </tr>
                 
                 <% authors.forEach(author => { %>
@@ -26,6 +27,10 @@
                     <td><%= author.fullname %></td>
                     <td><%= author.birthdate.toISOString().split('T')[0] %></td>
                     <td><%= author.country %></td>
+                    <td>
+                        <button onclick="location.href='/update/author/?fullname=<%= encodeURIComponent(author.fullname) %>&birthDate=<%= author.birthdate.toISOString().split('T')[0] %>&country=<%= author.country %>'" class="button-class">Update</button>
+                        <button onclick="location.href='/delete/author/?fullname=<%= encodeURIComponent(author.fullname) %>'" class="button-class">Delete</button>
+                    </td>
                 </tr>
                 <%}); %>
             </table>

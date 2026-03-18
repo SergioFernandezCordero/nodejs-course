@@ -17,10 +17,14 @@
                 <caption><h2>Genres</h2></caption>
                 <tr>
                     <th>Genre name</th>
+                    <th>Available actions</th>
                 </tr>
                 <% genres.forEach(genre => { %>
                 <tr>
                     <td><%= genre.genre %></td>
+                    <td>
+                        <button onclick="location.href='/delete/genre/?genre=<%= genre.genre %>'" class="button-class">Delete</button>
+                    </td>
                 </tr>
                 <%}); %>
             </table>
