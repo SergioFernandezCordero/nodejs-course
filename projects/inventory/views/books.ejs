@@ -17,9 +17,9 @@
                 <p><a href="/"><img src="/images/icon.png" style="float:left" alt="Book Inventory App" height="42" width="42"></a></p><h1>Books by <%= by %></h1></img>
             <% } else { %>
                 <p><a href="/"><img src="/images/icon.png" style="float:left" alt="Book Inventory App" height="42" width="42"></a></p><h1>Books Inventory</h1></img>
-            <% } %>        
+            <% } %>
         </div></br>
-            <% if ( locals.books && locals.books.length > 0 ) {%>
+            <% if ( locals.books && typeof(locals.books) == 'object' && locals.books.length > 0 ) {%>
         <div class="w3-container">
             <table align="center">
                 <caption><h2>Books</h2></caption>
@@ -40,7 +40,10 @@
                     <td><%= book.price %> €</td>
                     <td>
                         <button onclick="location.href='/update/book/?title=<%= encodeURIComponent(book.title) %>&author=<%= encodeURIComponent(book.author) %>&publishDate=<%= book.publishdate.toISOString().split('T')[0] %>&genre=<%= encodeURIComponent(book.genre) %>&price=<%= book.price %>'" class="button-class">Update</button>
-                        <button onclick="location.href='/delete/book/?title=<%= encodeURIComponent(book.title) %>'" class="button-class">Delete</button>
+                        <form action="/delete/book" method="POST">
+                            <input type="hidden" name="title" id="title" value="<%= encodeURIComponent(book.title) %>" required>
+                            <button type="submit" onclick="return confirm('This will pemanently remove the book <%= book.title %>\". Are you sure?')" class="button-class">Delete</button>
+                        </form>
                     </td>
                 </tr>
                 <%}); %>
@@ -60,7 +63,7 @@
                 <h4>There was an error: <%= error %></h4>
                 <button onclick="history.back()" class="button-class">Go Back</button>
                 <%} else {%>
-                <h4>There are no books defined matching criteria.</h4>
+                <h4>There are no books defined.</h4>
                 <button onclick="location.href='/new/book'" class="button-class">Create a new book</button>
                 <button onclick="history.back()" class="button-class">Go Back</button>
             </div>
