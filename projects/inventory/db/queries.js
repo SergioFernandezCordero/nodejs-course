@@ -58,12 +58,16 @@ async function updateBook(title, author, publishDate, price, genre) {
     await pool.query("UPDATE books SET author = $2, publishDate = $3, price = $4, genre = $5 WHERE title = $1", [title, author, publishDate, price, genre]);
 }
 
-async function deleteBookByTitle(title) {
+async function deleteBook(title) {
     await pool.query("DELETE FROM books WHERE title = $1", [title]);
 }
 
-async function deleteBookByAuthor(author) {
-    await pool.query("DELETE FROM books WHERE author = $1", [author]);
+async function deleteAuthor(fullname) {
+    await pool.query("DELETE FROM authors WHERE fullname = $1", [fullname]);
+}
+
+async function deleteGenre(genre) {
+    await pool.query("DELETE FROM genres WHERE genre = $1", [genre]);
 }
 
 module.exports = {
@@ -80,6 +84,7 @@ module.exports = {
     searchByPublishDateRange,
     updateAuthor,
     updateBook,
-    deleteBookByTitle,
-    deleteBookByAuthor
+    deleteBook,
+    deleteAuthor,
+    deleteGenre
 };
