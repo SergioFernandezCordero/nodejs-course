@@ -211,6 +211,43 @@ async function updateGenre(genre) {
     }
 }
 
+
+async function deleteBook(title) {
+    try {
+        const action = await db.deleteBook(title);
+        const log = `[Controller] SUCCESS - deleteBook deleted the registry`;
+        console.log(log);
+    } catch (err) {
+        const log = `[Controller] ERROR - deleteBook returned ${err}`;
+        console.log(log);
+        throw new Error(err);
+    }
+}
+
+async function deleteAuthor(fullname) {
+    try {
+        const action = await db.deleteAuthor(fullname);
+        const log = `[Controller] SUCCESS - deleteAuthor deleted the registry`;
+        console.log(log);
+    } catch (err) {
+        const log = `[Controller] ERROR - deleteAuthor returned ${err}`;
+        console.log(log);
+        throw new Error(err);
+    }
+}
+
+async function deleteGenre(genre) {
+    try {
+        const action = await db.deleteGenre(genre)
+        const log = `[Controller] SUCCESS - deleteGenre deleted the registry`;
+        console.log(log);
+    } catch (err) {
+        const log = `[Controller] ERROR - deleteGenre returned ${err}`;
+        console.log(log);
+        throw new Error(err);
+    }
+}
+
 module.exports = {
     insertAuthor,
     insertGenre,
@@ -225,5 +262,8 @@ module.exports = {
     searchByPublishDateRange,
     updateBook,
     updateAuthor,
-    updateGenre
+    updateGenre,
+    deleteBook,
+    deleteAuthor,
+    deleteGenre
 };
