@@ -17,7 +17,10 @@ app.get("/", async(req, res) => {
         res.render("books", { books: books });
     } catch (err) {
         console.log(`[Router] catched ${err}`);
-        res.render("books", { by: "book", error: err }); 
+        res.render("books", {
+            by: "book",
+            error: err
+        });
     }
 });
 
@@ -27,7 +30,7 @@ app.get("/authors", async(req, res) => {
         res.render("authors", { authors: authors });
     } catch (err) {
         console.log(`[Router] catched ${err}`);
-        res.render("authors", { error: err }); 
+        res.render("authors", { error: err });
     }
 });
 
@@ -37,7 +40,7 @@ app.get("/genres", async(req, res) => {
         res.render("genres", { by: "genre", genres: genres });
     } catch (err) {
         console.log(`[Router] catched ${err}`);
-        res.render("genres", { by: "genre", error: err }); 
+        res.render("genres", { by: "genre", error: err });
     }
 });
 
@@ -47,16 +50,20 @@ app.route('/new/author')
     })
     .post(async(req, res) => {
         try {
-            const insertAuthor = await query.insertAuthor(req.body.fullname, req.body.birthdate, req.body.country)
+            const insertAuthor = await query.insertAuthor(
+                req.body.fullname,
+                req.body.birthdate,
+                req.body.country
+            )
             const date = new Date(req.body.birthdate);
-            res.render("authors", { by: "author", authors: [{ 
+            res.render("authors", { by: "author", authors: [{
                 fullname: req.body.fullname,
                 birthdate: date,
                 country: req.body.country
-            }] }); 
+            }] });
         } catch(err) {
             console.log(`[Router] catched ${err}`);
-            res.render("authors", { by: "author", error: err, query: `${req.body.title}` }); 
+            res.render("authors", { by: "author", error: err });
         }
 
     })
@@ -68,10 +75,10 @@ app.route('/new/genre')
     .post(async(req, res) => {
         try {
             const newGenre = await query.insertGenre(req.body.genre)
-            res.render("genres", { by: "genre", genres: [{ genre: req.body.genre }] }); 
+            res.render("genres", { by: "genre", genres: [{ genre: req.body.genre }] });
         } catch (err) {
             console.log(`[Router] catched ${err}`);
-            res.render("genres", { by: "genre", error: err }); 
+            res.render("genres", { by: "genre", error: err });
         }
 
     })
@@ -83,17 +90,22 @@ app.route('/new/book')
     .post(async (req, res) => {
         try {
             const date = new Date(req.body.publishDate);
-            const insertBook = await query.insertBook(req.body.title, req.body.author, req.body.publishDate, req.body.price, req.body.genre)
+            const insertBook = await query.insertBook(
+                req.body.title,
+                req.body.author,
+                req.body.publishDate,
+                req.body.price,
+                req.body.genre)
             res.render("books", { by: "book", books: [{
                 title: req.body.title,
                 author: req.body.author,
                 publishdate: date,
                 price: req.body.price,
                 genre: req.body.genre
-            }] }); 
+            }] });
         } catch (err) {
             console.log(`[Router] catched ${err}`);
-            res.render("books", { by: "book", error: err }); 
+            res.render("books", { by: "book", error: err });
         }
 
     })
@@ -105,10 +117,10 @@ app.route('/search/bytitle')
     .post(async (req, res) => {
         try {
             const byTitle = await query.searchByTitle(req.body.title)
-            res.render("books", { by: "title", books: byTitle }); 
+            res.render("books", { by: "title", books: byTitle });
         } catch (err) {
             console.log(`[Router] catched ${err}`);
-            res.render("books", { by: "book", error: err }); 
+            res.render("books", { by: "book", error: err });
         }
     })
 
@@ -122,7 +134,7 @@ app.route('/search/byauthor')
             res.render("books", { by: "author", books: byAuthor });
         } catch (err) {
             console.log(`[Router] catched ${err}`);
-            res.render("books", { by: "author", error: err }); 
+            res.render("books", { by: "author", error: err });
         }
     })
 
@@ -136,7 +148,7 @@ app.route('/search/bygenre')
             res.render("books", { by: "genre", books: byGenre });
         } catch (err) {
             console.log(`[Router] catched ${err}`);
-            res.render("books", { by: "genre", error: err }); 
+            res.render("books", { by: "genre", error: err });
         }
     })
 
@@ -146,11 +158,17 @@ app.route('/search/byprice')
     })
     .post(async(req, res) => {
         try {
-            const byGenre = await query.searchByPrizeRange(req.body.min, req.body.max)
-            res.render("books", { by: "price", books: byGenre, query:`between ${req.body.min} and ${req.body.max}`}); 
+            const byGenre = await query.searchByPrizeRange(
+                req.body.min,
+                req.body.max
+            )
+            res.render("books", {
+                by: "price",
+                books: byGenre
+            });
         } catch (err) {
             console.log(`[Router] catched ${err}`);
-            res.render("books", { by: "book", error: err }); 
+            res.render("books", { by: "book", error: err });
         }
     })
 
@@ -161,10 +179,13 @@ app.route('/search/bypublishdate')
     .post(async(req, res) => {
         try {
             const byPublishDate = await query.searchByPublishDateRange(req.body.min, req.body.max)
-            res.render("books", { by: "publish date", books: byPublishDate, query:`between ${req.body.min} and ${req.body.max}`}); 
+            res.render("books", {
+                by: "publish date",
+                books: byPublishDate,
+            });
         } catch (err) {
             console.log(`[Router] catched ${err}`);
-            res.render("books", { by: "book", error: err }); 
+            res.render("books", { by: "book", error: err });
         }
     })
 
@@ -180,11 +201,17 @@ app.route('/update/book')
     })
     .post(async (req, res) => {
         try {
-            const updateBook = await query.updateBook(req.body.title, req.body.author, req.body.publishDate, req.body.price, req.body.genre)
-            res.render("books", { by: "title", books: updateBook }); 
+            const updateBook = await query.updateBook(
+                req.body.title,
+                req.body.author,
+                req.body.publishDate,
+                req.body.price,
+                req.body.genre
+            )
+            res.render("books", { by: "title", books: updateBook });
         } catch (err) {
             console.log(`[Router] catched ${err}`);
-            res.render("books", { by: "book", error: err }); 
+            res.render("books", { by: "book", error: err });
         }
 
     })
@@ -199,11 +226,18 @@ app.route('/update/author')
     })
     .post(async (req, res) => {
         try {
-            const updateAuthor = await query.updateAuthor(fullname, birthDate, country)
-            res.render("authors", { by: "author", author: updateAuthor }); 
+            const updateAuthor = await query.updateAuthor(
+                fullname,
+                birthDate,
+                country
+            )
+            res.render("authors", {
+                by: "author",
+                author: updateAuthor
+            });
         } catch (err) {
             console.log(`[Router] catched ${err}`);
-            res.render("authors", { by: "author", error: err }); 
+            res.render("authors", { by: "author", error: err });
         }
 
     })
@@ -217,11 +251,51 @@ app.route('/update/genre')
     })
     .post(async (req, res) => {
         try {
-            const updateAuthor = await query.updateAuthor(fullname, birthDate, country)
-            res.render("authors", { by: "author", author: updateAuthor }); 
+            const updateAuthor = await query.updateAuthor(
+                fullname,
+                birthDate,
+                country
+            )
+            res.render("authors", { by: "author", author: updateAuthor });
         } catch (err) {
             console.log(`[Router] catched ${err}`);
-            res.render("authors", { by: "author", error: err }); 
+            res.render("authors", { by: "author", error: err });
+        }
+
+    })
+
+app.route('/delete/author')
+    .post(async (req, res) => {
+        try {
+            const deleteAuthor = await query.deleteAuthor(decodeURIComponent(req.body.fullname));
+            res.redirect(302, '/authors');
+        } catch (err) {
+            console.log(`[Router] catched ${err}`);
+            res.render("authors", { by: "author", error: err });
+        }
+
+    })
+
+app.route('/delete/genre')
+    .post(async (req, res) => {
+        try {
+            const deleteGenre = await query.deleteGenre(decodeURIComponent(req.body.genre));
+            res.redirect(302, '/genres');
+        } catch (err) {
+            console.log(`[Router] catched ${err}`);
+            res.render("genres", { by: "genre", error: err });
+        }
+
+    })
+
+app.route('/delete/book')
+    .post(async (req, res) => {
+        try {
+            const deleteBook = await query.deleteBook(decodeURIComponent(req.body.title));
+            res.redirect(302, '/books');
+        } catch (err) {
+            console.log(`[Router] catched ${err}`);
+            res.render("books", { by: "book", error: err });
         }
 
     })
