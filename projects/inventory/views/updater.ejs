@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Update <%= by %></title>
+  <%- include('styles') %>
+  </head>
+<body>
+  <%- include('sidebar') %>
+  <div style="margin-right:15%">
+    <div class="w3-container w3-teal">
+      <p><a href="/"><img src="/images/icon.png" style="float:left" alt="Book Inventory App" height="42" width="42"></a></p><h1>Update <%= by %></h1>
+    </div></br>
+      <% if ( locals.books && locals.books.length > 0 ) {%>
+      <table align="center">
+          <caption><h2>Book current data</h2></caption>
+          <tr>
+              <th width="400">Title</th>
+              <th>Author</th>
+              <th>Publish Date</th>
+              <th>Genre</th>
+              <th>Price per unit</th>
+              <th></th>
+          </tr>
+          <% books.forEach(book => { %>
+          <tr>
+              <td width="400" align="left"><%= book.title %></td>
+              <td><%= book.author %></td>
+              <td><%= book.publishdate.toISOString().split('T')[0] %></td>
+              <td><%= book.genre %></td>
+              <td><%= book.price %> €</td>
+          </tr>
+      </table>
+          <%}) %>
+      <% } else if ( locals.authors ) {%>
+      <table align="center">
+          <caption><h2>Authors</h2></caption>
+          <tr>
+              <th>Full name</th>
+              <th>Birth Date</th>
+              <th>Country of birth</th>
+          </tr>
+
+          <% authors.forEach(author => { %>
+          <tr>
+              <td><%= author.fullname %></td>
+              <td><%= author.birthdate.toISOString().split('T')[0] %></td>
+              <td><%= author.country %></td>
+          </tr>
+          <%}); %>
+      </table>
+
+
+      <%}; %>
+    <div class="w3-container" align="center">
+    <% if (locals.by && locals.by.length >= 0) { %>
+    <h2>Insert new <%= by %> data</h2>
+    <form action="/update/<%= by.replace(/\s/g, "") %>" method="POST">
+      <% if (locals.by == "author") { %>
+      <b>NOTE: If you need to change the author name, delete it and recreate it.</b></br>
+      <label for="fullname2">Full name </label>
+      <input type="text" name="fullname2" id="fullname2" value="<%= authors[0].fullname %>" required disabled>
+      <input type="hidden" name="fullname" id="fullname" value="<%= authors[0].fullname %>" required></br>
+      <label for="birthdate">Birth date </label>
+      <input type="date" name="birthdate" id="birthdate" value="<%= authors[0].birthdate.toISOString().split('T')[0] %>" required></br>
+      <label for="country">Country </label>
+      <input type="text" name="country" id="country" value="<%= authors[0].country %>" required></br>
+      <button type="submit">Update book</button>
+      <% } else if (locals.by == "publish date") { %>
+      <label for="min">From </label>
+      <input type="date" name="min" id="min" required></br>
+      <label for="max">To </label>
+      <input type="date" name="max" id="max" required></br>
+      <button type="submit">Update author</button>
+      <% } else if (locals.by == "book") { %>
+      <b>NOTE: If you need to change the title, delete and recreate the book.</b></br>
+      <label for="title2">Title:</label>
+      <input type="text" name="title2" id="title2" value="<%= books[0].title %>" required disabled>
+      <!-- Ugly, but I don't know any other way to do this at this point :) -->
+      <input type="hidden" name="title" id="title" value="<%= books[0].title %>" required></br>
+      <label for="author">Author </label>
+      <input type="text" name="author" id="author" value="<%= books[0].author %>" required></br>
+      <label for="publishDate">Publish Date </label>
+      <input type="date" name="publishDate" id="publishDate" value="<%= books[0].publishdate.toISOString().split('T')[0] %>" required></br>
+      <label for="price">Price </label>
+      <input type="number" name="price" id="price" value="<%= books[0].price %>" required></br>
+      <label for="genre">Genre </label>
+      <input type="text" name="genre" id="genre" value="<%= books[0].genre %>" required></br>
+      <button type="submit">Update book</button>
+      <% } else { %>
+      <b>NOTE: Nothing to do here.</b></br>
+      <button onclick="location.href='/'" class="button-class">Home</button><button onclick="history.back()" class="button-class">Go back</button>
+      <% } %>
+      </br>
+    </form>
+    <% } %>
+    </div>
+  </div>
+</body>
+</html>

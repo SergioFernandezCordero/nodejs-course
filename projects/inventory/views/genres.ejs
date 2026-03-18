@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Genres Inventory</title>
+    <%- include('styles') %>
+    </head>
+<body>
+
+    <%- include('sidebar') %>
+    <div style="margin-right:15%">
+        <div class="w3-container w3-teal">
+                <p><a href="/"><img src="/images/icon.png" style="float:left" alt="Book Inventory App" height="42" width="42"></a></p><h1>Genres</h1>
+        </div></br>
+        <div class="w3-container">
+            <% if ( locals.genres && typeof(locals.genres) == 'object' && locals.genres.length > 0 ) {%>
+            <table align="center">
+                <caption><h2>Genres</h2></caption>
+                <tr>
+                    <th>Genre name</th>
+                    <th>Available actions</th>
+                </tr>
+                <% genres.forEach(genre => { %>
+                <tr>
+                    <td><%= genre.genre %></td>
+                    <td>
+                        <form action="/delete/genre" method="POST">
+                            <input type="hidden" name="genre" id="genre" value="<%= encodeURIComponent(genre.genre) %>" required>
+                            <button type="submit" onclick="return confirm('This will remove all books in the genre <%= genre.genre %>. Are you sure?')" class="button-class">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                <%}); %>
+            </table>
+        </br>
+            <div align="center">
+                <button onclick="location.href='/new/genre'" class="button-class">Create a new genre</button>
+                <button onclick="location.href='/genres'" class="button-class">List all genres</button>
+                <button onclick="location.href='/search/bygenre'" class="button-class">Search by genre</button>
+            </div>
+            </table>
+        </div>
+            <%} else if ( locals.error ) { %>
+        <div align="center">
+            <h4>There was an error: <%= error %></h4>
+            <div><button onclick="history.back()" class="button-class">Go Back</button></div>
+            <%} else {%>
+            <h4>There are no genres defined.</h4>
+            <div><button onclick="location.href='/new/genre'" class="button-class">Create a new genre</button></div>
+        </div>
+            <%}; %>
+    </div>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <% if ( locals.by ) {%>
+        <title>Books by <%= by %></title>
+    <% } else { %>
+        <title>Book Inventory</title>
+    <% } %>
+    <%- include('styles') %>
+    </head>
+<body>
+    <%- include('sidebar') %>
+    <div style="margin-right:15%">
+        <div class="w3-container w3-teal">
+            <% if ( locals.by ) {%>
+                <p><a href="/"><img src="/images/icon.png" style="float:left" alt="Book Inventory App" height="42" width="42"></a></p><h1>Books by <%= by %></h1></img>
+            <% } else { %>
+                <p><a href="/"><img src="/images/icon.png" style="float:left" alt="Book Inventory App" height="42" width="42"></a></p><h1>Books Inventory</h1></img>
+            <% } %>
+        </div></br>
+            <% if ( locals.books && typeof(locals.books) == 'object' && locals.books.length > 0 ) {%>
+        <div class="w3-container">
+            <table align="center">
+                <caption><h2>Books</h2></caption>
+                <tr>
+                    <th width="400">Title</th>
+                    <th>Author</th>
+                    <th>Publish Date</th>
+                    <th>Genre</th>
+                    <th>Price per unit</th>
+                    <th>Available actions</th>
+                </tr>
+                <% books.forEach(book => { %>
+                <tr>
+                    <td width="400" align="left"><%= book.title %></td>
+                    <td><%= book.author %></td>
+                    <td><%= book.publishdate.toISOString().split('T')[0] %></td>
+                    <td><%= book.genre %></td>
+                    <td><%= book.price %> €</td>
+                    <td>
+                        <button onclick="location.href='/update/book/?title=<%= encodeURIComponent(book.title) %>&author=<%= encodeURIComponent(book.author) %>&publishDate=<%= book.publishdate.toISOString().split('T')[0] %>&genre=<%= encodeURIComponent(book.genre) %>&price=<%= book.price %>'" class="button-class">Update</button>
+                        <form action="/delete/book" method="POST">
+                            <input type="hidden" name="title" id="title" value="<%= encodeURIComponent(book.title) %>" required>
+                            <button type="submit" onclick="return confirm('This will pemanently remove the book <%= book.title %>\". Are you sure?')" class="button-class">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                <%}); %>
+            </table>
+            </br>
+            <div align="center">
+                <button onclick="location.href='/new/book'" class="button-class">Create a new book</button>
+                <button onclick="location.href='/'" class="button-class">List all book</button>
+                <button onclick="location.href='/search/bytitle'" class="button-class">Search by title</button>
+                <button onclick="location.href='/search/byauthor'" class="button-class">Search by author</button>
+                <button onclick="location.href='/search/bygenre'" class="button-class">Search by genre</button>
+                <button onclick="location.href='/search/bypublishdate'" class="button-class">Search by publish date</button>
+                <button onclick="location.href='/search/byprice'" class="button-class">Search by price</button>
+            </div>
+                <%} else if ( locals.error ) { %>
+            <div align="center">
+                <h4>There was an error: <%= error %></h4>
+                <button onclick="history.back()" class="button-class">Go Back</button>
+                <%} else {%>
+                <h4>There are no books defined.</h4>
+                <button onclick="location.href='/new/book'" class="button-class">Create a new book</button>
+                <button onclick="history.back()" class="button-class">Go Back</button>
+            </div>
+        </div>
+                <%}; %>
+    </div>
+</body>
+</html>

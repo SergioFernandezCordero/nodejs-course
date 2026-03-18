@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Search by <%= by %></title>
+  <%- include('styles') %>
+  </head>
+<body>
+  <%- include('sidebar') %>
+  <div style="margin-right:15%">
+    <div class="w3-container w3-teal">
+      <p><a href="/"><img src="/images/icon.png" style="float:left" alt="Book Inventory App" height="42" width="42"></a></p><h1>Search by <%= by %></h1>
+    </div></br>
+    <div class="w3-container" align="center">
+      <form action="/search/by<%= by.replace(/\s/g, "") %>" method="POST">
+        <% if (locals.by == "price") { %>
+        <label for="min">Minimum: </label>
+        <input type="text" name="min" id="min" required>
+        <label for="max">Maximum: </label>
+        <input type="text" name="max" id="max" required>
+        <% } else if (locals.by == "publish date") { %>
+        <label for="min">From: </label>
+        <input type="date" name="min" id="min" required>
+        <label for="max">To: </label>
+        <input type="date" name="max" id="max" required>
+        <% } else { %>
+        <label for="<%= by %>"><%= by.toUpperCase() %> </label>
+        <input type="text" name="<%= by %>" id="<%= by %>" required>
+        <% } %>
+        <button type="submit">Search</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>
