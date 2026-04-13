@@ -6,17 +6,22 @@ const lengthErr = "must be between 1 and 10 characters.";
 
 const validateUser = [
     body("username").trim()
-        .isEmail().withMessage("Username must be an email")
-        .notEmpty().withMessage("Username cannot be empty"),
+        .notEmpty().withMessage("Username cannot be empty")
+        .isEmail().withMessage("Username must be an email"),
     body("password").trim()
-        .isLength({ min: 8, max: 16 }).withMessage(`Password ${lengthErr}`)
-        .notEmpty().withMessage("Password is mandatory"),
+        .notEmpty().withMessage("Password cannot be empty")
+        .isLength({ min: 4, max: 16 }).withMessage(`Password ${lengthErr}`),
+    body("confirmpassword")
+        .custom((value, {req}) => {
+            return value === req.body.password
+        })
+        .withMessage("Passwords don't match"),
     body("firstname").trim()
-        .isAlpha().withMessage(`First Name ${alphaErr}`)
-        .notEmpty().withMessage("First Name cannot be empty"),
+        .notEmpty().withMessage("First Name cannot be empty")
+        .isAlpha().withMessage(`First Name ${alphaErr}`),
     body("lastname").trim()
-        .isAlpha().withMessage(`Last Name ${alphaErr}`)
         .notEmpty().withMessage("Last name cannot be empty")
+        .isAlpha().withMessage(`Last Name ${alphaErr}`)
 ]
 
 const createUser = [
@@ -24,8 +29,10 @@ const createUser = [
     async (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            console.log("Data invalid");
-            res.status(400).send("Data Invalid");
+            const errorValuesRaw = JSON.stringify(errors.array()[0]);
+            const errorValues = JSON.parse(errorValuesRaw)
+            console.log(`[Controller] ERROR: ${errorValues.msg}`);
+            res.status(400).send(`Error: ${errorValues.msg}`);
         } else {
             const { username, password, firstname, lastname } = matchedData(req);
             try {
@@ -37,7 +44,7 @@ const createUser = [
             } catch (err) {
                 const log = `[Controller] ERROR - User not created: ${err}`;
                 console.log(log);
-                res.status(500).send("Oops! Something whent wrong")
+                res.status(500).send("Oops! User cannot be created")
             }
         }
     }
