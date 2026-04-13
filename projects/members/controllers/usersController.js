@@ -2,7 +2,7 @@ const db = require("../db/queries");
 const crypto = require('../lib/crypto-tools');
 const { body, validationResult, matchedData } = require("express-validator");
 const alphaErr = "must only contain letters.";
-const lengthErr = "must be between 1 and 10 characters.";
+const lengthErr = "must be between 8 and 16 characters.";
 
 const validateUser = [
     body("username").trim()
@@ -10,7 +10,12 @@ const validateUser = [
         .isEmail().withMessage("Username must be an email"),
     body("password").trim()
         .notEmpty().withMessage("Password cannot be empty")
-        .isLength({ min: 4, max: 16 }).withMessage(`Password ${lengthErr}`),
+        .isLength({ min: 8, max: 16 }).withMessage(`Password ${lengthErr}`)
+        .isStrongPassword({ // See https://express-validator.github.io/docs/api/validation-chain#isstrongpassword
+            minUppercase: 1,
+            minNumbers: 1,
+            minSymbols: 1
+        }).withMessage("Password must contain at one uppercase character, one lower case and one special character."),
     body("confirmpassword")
         .custom((value, {req}) => {
             return value === req.body.password
