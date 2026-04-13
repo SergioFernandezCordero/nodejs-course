@@ -55,6 +55,34 @@ const createUser = [
     }
 ]
 
+async function loginUser(username, password, done) {
+    try {
+        console.log(`[Controller] requesting login for ${username}`)
+        const loginData = await db.getLoginData(username)
+        if (!loginData.username) {
+            return done(null, false, { message: "Username not found" });
+        }
+        const match = await crypto.comparePasswords(password, loginData.password)
+        if (!match) {
+            return done(null, false, { message: "Incorrect password" });
+        }
+        console.log(`[Controller] login successfull for ${username}`)
+    } catch(err) {
+        console.log(`[Controller] ERROR: Cannot login ${username}: ${err}`)
+    }
+}
+
+async function loginDataByID(id) {
+    try {
+        const loginData = await db.getLoginDataFromId(id);
+        console.log(loginData);
+        return loginData;
+    } catch(err) {
+        console.log(err)
+    }
+}
 module.exports = {
-    createUser
+    createUser,
+    loginUser,
+    loginDataByID
 };

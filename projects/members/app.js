@@ -1,19 +1,35 @@
 const path = require("node:path");
-var bodyParser = require('body-parser');
-const { Pool } = require("pg");
-const { RedisStore } = require("connect-redis")
-const { createClient } = require("redis");
 const { initiatizeRedisSessionStorage } = require("./lib/redis-store.js")
 const express = require("express");
 const session = require("express-session");
 const passport = require("passport");
 const LocalStrategy = require('passport-local').Strategy;
-const query = require("./controllers/messageController");
+//const query = require("./controllers/messageController");
 const users = require("./controllers/usersController");
 const PORT = process.env.EXPRESS_PORT || 4001;
 const sessionSecrets = process.env.SESSION_SECRETS.split(" ") || "unsecure";
 const app = express();
 
+// Iniatilize passport authentication
+
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
+
+passport.deserializeUser(async (id, done) => {
+  try {
+    const user = await users.loginDataByID(id)
+    done(null, user[0]);
+  } catch(err) {
+    done(err);
+  }
+});
+
+passport.use(
+  new LocalStrategy(users.loginUser)
+);
+
+// Initialize app
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
@@ -30,6 +46,11 @@ app.use(
   }),
 )
 
+// initialize passport package
+app.use(passport.initialize());
+// initialize a session with passport that authenticates the sessions from express-session
+app.use(passport.session());
+
 app.get("/", (req, res) => {
     res.render("index");
 });
@@ -38,6 +59,16 @@ app.route("/sign-up")
         res.render("signup")
     })
     .post(users.createUser);
+
+app.route("/login")
+    .get((req, res) => {
+        res.render("login")
+    })
+    .post(passport.authenticate("local", {
+      successRedirect: "/",
+      failureRedirect: "/",
+    })
+  );
 
 app.listen(PORT, (error)=>{
     if (error) {

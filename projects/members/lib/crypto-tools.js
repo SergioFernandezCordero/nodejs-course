@@ -11,6 +11,17 @@ async function hashPassword(rawPassword) {
     }
 }
 
+async function comparePasswords(insertedPassword, storedPassword) {
+    try {
+        const match = await bcrypt.compare(insertedPassword, storedPassword);
+        return match;
+    } catch(err) {
+        console.log(`ERROR - Cannot validate password: ${err}`);
+        throw Error(err);
+    }
+}
+
 module.exports = {
-    hashPassword
+    hashPassword,
+    comparePasswords
 }
