@@ -66,7 +66,8 @@ async function loginUser(username, password, done) {
         if (!match) {
             return done(null, false, { message: "Incorrect password" });
         }
-        console.log(`[Controller] login successfull for ${username}`)
+        console.log(`[Controller] login successfull for ${username}`);
+        return done(null, username);
     } catch(err) {
         console.log(`[Controller] ERROR: Cannot login ${username}: ${err}`)
     }
