@@ -11,9 +11,9 @@ async function getLoginData(username) {
 }
 
 async function getLoginDataFromId(id) {
-    const { rows } = await pool.query("SELECT username, firstname, lastname, ismember FROM users WHERE id = $1", [id]);
+    const { rows } = await pool.query("SELECT id, username, firstname, lastname, ismember FROM users WHERE id = $1", [id]);
     const loginDataID = rows[0];
-    return loginDataID;
+    return loginDataID.id;
 }
 
 async function getAllMessages() {

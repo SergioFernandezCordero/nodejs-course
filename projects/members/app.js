@@ -12,16 +12,19 @@ const app = express();
 
 // Iniatilize passport authentication
 
-passport.serializeUser((user, done) => {
-  done(null, user.id);
+passport.serializeUser((id, done) => {
+  console.log("[Auth] Serializing user.")
+  done(null, id);
 });
 
 passport.deserializeUser(async (id, done) => {
   try {
+    console.log("[Auth] Deserializing user.")
     const user = await users.loginDataByID(id)
-    done(null, user[0]);
+    done(null, id);
   } catch(err) {
-    done(err);
+    console.log(`[Auth] Error deserializing user: ${err}`);
+    done(null, err);
   }
 });
 

@@ -67,7 +67,7 @@ async function loginUser(username, password, done) {
             return done(null, false, { message: "Incorrect password" });
         }
         console.log(`[Controller] login successfull for ${username}`);
-        return done(null, username);
+        return done(null, loginData.id);
     } catch(err) {
         console.log(`[Controller] ERROR: Cannot login ${username}: ${err}`)
     }
@@ -75,11 +75,11 @@ async function loginUser(username, password, done) {
 
 async function loginDataByID(id) {
     try {
+        console.log("[Controller] Deserializing user.")
         const loginData = await db.getLoginDataFromId(id);
-        console.log(loginData);
         return loginData;
     } catch(err) {
-        console.log(err)
+        console.log(`[Controller] Error deserializing user: ${err}`)
     }
 }
 module.exports = {
