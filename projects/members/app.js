@@ -55,7 +55,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.get("/", (req, res) => {
-    res.render("index");
+    res.render("index", { user: req.user });
 });
 app.route("/sign-up")
     .get((req, res) => {
@@ -72,6 +72,24 @@ app.route("/login")
       failureRedirect: "/",
     })
   );
+
+app.route("/log-out")
+  .get((req, res, next) => {
+    req.logout((err) => {
+      if (err) {
+        return next(err);
+      }
+      res.redirect("/");
+    });
+  });
+
+app.route("/join")
+    .get((req, res)=> {
+        res.render("join")
+    })
+    .post((req, res) => {
+        res.render("join")
+    });
 
 app.listen(PORT, (error)=>{
     if (error) {
