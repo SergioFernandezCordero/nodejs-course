@@ -2,15 +2,23 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+<% if (locals.user) {%>
   <title>Join Us</title>
+<% } else { %>
+  <title>Not found</title>
+<%} %>
 </head>
 <body>
+ <% if (locals.user) {%>
   <h1>Joins Us</h1>
   <p>Are you a TRUE member? Activate your membership introducing here the SUPERDUPER secret code only our members know!</p>
   <form action="/join" method="POST">
     <label for="code">Secret Code: </label>
     <input id="code" name="code" placeholder="secret code" type="text" /><br/>
-    <button type="submit">Sign Up</button>
+    <button type="submit">Go for it!</button>
   </form>
+<% } else { %>
+  <p>Nothing to see here.</p>
+<%} %>
 </body>
 </html>
