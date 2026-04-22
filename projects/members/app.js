@@ -21,7 +21,7 @@ passport.deserializeUser(async (id, done) => {
   try {
     console.log("[Auth] Deserializing user.")
     const user = await users.loginDataByID(id)
-    done(null, id);
+    done(null, user);
   } catch(err) {
     console.log(`[Auth] Error deserializing user: ${err}`);
     done(null, err);
