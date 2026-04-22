@@ -85,10 +85,28 @@ app.route("/log-out")
 
 app.route("/join")
     .get((req, res)=> {
-        res.render("join")
+        res.render("join", { user: req.user });
     })
     .post((req, res) => {
-        res.render("join")
+      const upgradeResult = users.UpgradeUserToMember(req.user.id, req.body.code);
+      upgradeResult
+        .then(result => {
+          switch(result){
+            case 200:
+              res.status(200).send("Correct! You are a TRUE MEMBER now. Hooray!");
+            break;
+            case 500:
+              res.status(500).send("Oops, there was an error. Perhaps your already are a TRUE MEMBER");
+            break;
+            case 401:
+              res.status(401).send("Wrong! Come back when you are a TRUE MEMBER.");
+            break;
+          }
+        })
+        .catch(error => {
+          console.log(error)
+        })
+      console.log(upgradeResult)
     });
 
 app.listen(PORT, (error)=>{

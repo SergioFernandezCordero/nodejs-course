@@ -16,6 +16,10 @@ async function getLoginDataFromId(id) {
     return loginDataID;
 }
 
+async function makeUserMember(id) {
+    await pool.query("UPDATE users SET ismember = True WHERE id = $1 AND ismember = False", [id])
+}
+
 async function getAllMessages() {
     //await XXX;
 }
@@ -28,6 +32,7 @@ module.exports = {
     createNewUser,
     getLoginData,
     getLoginDataFromId,
+    makeUserMember,
     getAllMessages,
     publishMessage
 };

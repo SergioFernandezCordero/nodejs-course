@@ -3,6 +3,7 @@ const crypto = require('../lib/crypto-tools');
 const { body, validationResult, matchedData } = require("express-validator");
 const alphaErr = "must only contain letters.";
 const lengthErr = "must be between 8 and 16 characters.";
+const memberCode = process.env.MEMBER_CODE || "0000";
 
 const validateUser = [
     body("username").trim()
@@ -82,8 +83,33 @@ async function loginDataByID(id) {
         console.log(`[Controller] Error deserializing user: ${err}`)
     }
 }
+
+async function UpgradeUserToMember(id, secretCode) {
+    console.log("[Controller] Evaluating if user can be a member")
+    console.log(memberCode, secretCode)
+    if ( secretCode === memberCode ) {
+        console.log("[Controller] Secret code is valid! Upgrading...")
+        try {
+            await db.makeUserMember(id);
+            console.log(`[Controller] UserID ${id} successfully upgraded!`)
+            const status = 200;
+            return status;
+        } catch(err) {
+            console.log(`[Controller] Error upgrading user: ${err}`);
+            const status = 500;
+            return status;
+        }
+    } else {
+        console.log("[Controller] Secret code is not valid! User won't be upgraded")
+        const status = 401;
+        return status;
+    }
+}
+
+
 module.exports = {
     createUser,
     loginUser,
-    loginDataByID
+    loginDataByID,
+    UpgradeUserToMember
 };
