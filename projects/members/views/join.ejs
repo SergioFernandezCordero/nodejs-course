@@ -10,6 +10,9 @@
 </head>
 <body>
  <% if (locals.user) {%>
+   <% if (locals.user.ismember === true) {%>
+    <p>You are currently a member. What more do you want?</p>
+  <%} else {%>
   <h1>Joins Us</h1>
   <p>Are you a TRUE member? Activate your membership introducing here the SUPERDUPER secret code only our members know!</p>
   <form action="/join" method="POST">
@@ -17,6 +20,7 @@
     <input id="code" name="code" placeholder="secret code" type="text" /><br/>
     <button type="submit">Go for it!</button>
   </form>
+  <%} %>
 <% } else { %>
   <p>Nothing to see here.</p>
 <%} %>
